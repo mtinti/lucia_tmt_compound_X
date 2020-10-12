@@ -1,5 +1,5 @@
 ![title](wcar.png)
-# Identifying the BACE1 interactome through BioID proximity assay
+#Use proteomics to Infer the Mode of Action (MoA) of compound XXX
 
 [![DOI](https://zenodo.org/badge/290785628.svg)](https://zenodo.org/badge/latestdoi/290785628)
 
