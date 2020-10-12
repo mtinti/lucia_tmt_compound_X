@@ -1,5 +1,5 @@
 ![title](wcar.png)
-#Use proteomics to Infer the Mode of Action (MoA) of compound XXX
+# Proteomics Experiment to Infer the Mode of Action (MoA) of Compound XXX
 
 This repository contains the web app code to visualize the proteome changes in trypanosome after treatment with the XXX compound.
 
