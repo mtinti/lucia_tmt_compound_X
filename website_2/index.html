@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="UTF-8">
+
+
+
+  <title>VolcanoViz</title>
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/site.webmanifest">
+  <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+
+
+  <link rel="stylesheet" type="text/css" href="CSS/external/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="CSS/external/bootstrap-tour-standalone.min.css">
+  <link rel="stylesheet" type="text/css" href="CSS/external/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="CSS/external/buttons.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="CSS/external/bootstrap-tour.min.css">
+  <link rel="stylesheet" type="text/css" href="CSS/app.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css">
+
+</head>
+
+<body>
+
+  <main role="main">
+
+  <div class="container">
+
+
+
+
+    <div class="row">
+      <div class="col-md-2">
+      </div>
+
+      <div class="col-md-8 d-flex flex-row">
+
+        <img class="img-responsive" style="width: 100%" 
+          id="theImg" src="uod-wcair-full.png" />
+      </div>
+      
+        
+      <div class="col-md-2">
+      </div>
+
+    </div>  
+
+    <div class="row">
+
+      <div class="col-md-2">
+      </div>
+
+      <div class="col-md-8 d-flex flex-row">
+        <h1 id='page_title'>Project Title</h1>
+      </div>
+
+      <div class="col-md-2">
+      </div>
+
+    </div>
+    
+    
+    <div class="row" id='plot_row'>
+
+      <div class="col-md-6">
+        <button id='button_2' type="submit" class="btn btn-primary" onclick="save_as_svg('plot2');">Download Plot</button>
+        <svg id="plot2"></svg>
+        
+      </div>
+      
+      <div class="col-md-6">
+        
+        <button type="submit" class="btn btn-primary" onclick="save_as_svg('plot1');">Download Plot</button>
+        <svg id="plot1"></svg>
+        
+      </div>
+
+      
+    </div>
+
+    <div class="row d-flex flex-row">
+
+      <div class="col-md-6">
+        <table id='table' class="display compact"></table>
+      </div>
+
+      <div class="col-md-2">
+        
+        <form id="my-form">
+          <div class="form-outline">
+            <textarea class="form-control" id="textAreaIDs" rows="8" style="font-size:12px;"></textarea>
+            <label class="form-label" for="textAreaIDs">Select Multiple IDs</label>
+            <br>
+            <button type="submit" class="btn btn-primary" >Submit</button>
+            <button type="reset" class="btn btn-primary" >Reset</button>
+          </div>
+        </form>
+        
+      </div>
+
+      
+
+      <div  class="col-md-4">
+        
+        <div id="bar_chart">
+        
+        </div>
+        <!-- <button type="submit" class="btn btn-primary" onclick="save_as_svg('bar_chart_svg');">Download Plot</button> -->
+        
+
+        
+      </div>
+  
+     </div>
+
+      
+      
+
+
+  </div>
+</main>
+      
+  <style>
+  </style>
+
+  <script type="text/javascript" src="config.js"></script> 
+
+  <script type="text/javascript" src="JS/external/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="JS/external/bootstrap-tour-standalone.min.js"></script>
+  <script type="text/javascript" src="JS/external/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="JS/external/dataTables.buttons.min.js"></script> 
+  <script type="text/javascript" src="JS/external/buttons.html5.min.js"></script> 
+  <script type="text/javascript" src="JS/external/bootstrap-tour.min.js"></script> 
+  <script type="text/javascript" src="JS/external/d3.v5.min.js"></script>
+  <script type="text/javascript" src="JS/extend_domain.js"></script>
+  <script type="text/javascript" src="JS/drag_element2.js"></script>  
+  <script type="text/javascript" src="JS/app.js"></script>
+  <script type="text/javascript" src="JS/tour.js"></script> 
+  <script type="text/javascript" src="JS/external/d3-drag.v2.min.js"></script>
+  <script type="text/javascript" src="JS/FileSaver.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+
+  <script>
+
+    var box_plot_chart = c3.generate({
+
+      oninit: function() {
+        this.svg.attr('id', 'bar_chart_svg')
+      },
+      
+      bindto: '#bar_chart',
+      title: {
+        text: ''
+      },
+        
+      data: {
+
+        type: 'bar',
+        //groups: [
+        //    [CONDITION_1,CONDITION_2]
+        //],
+        columns: [
+          [CONDITION_1, 0, 0, 0],
+          [CONDITION_2, 0, 0, 0]
+        ]
+      },
+
+      axis: {
+
+
+
+      y: {
+        label: 'iBAQ',
+        tick: {
+          format: d3.format(".1e")
+        }
+      },
+
+      x: {
+          type: 'category',
+          categories: ['Replica-1', 'Replica-2', 'Replica-3'],
+          //label: 'Replica'
+      }
+      }
+
+    });
+
+
+    function quotation(id, text) {
+        var q = document.getElementById(id);
+        if (q) q.innerHTML = text;
+      }
+      
+    //function run_joke () {
+    //    document.body.style.setProperty("-webkit-transform", "rotate(-180deg)", null);
+    //}
+    //https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an  
+    function save_as_svg(svg_id){
+
+
+      //$.ajax({
+      //  url: "CSS/external/c3.min.css",
+      //  dataType: "text",
+      //  success: function(cssText) {
+      //  console.log(cssText);
+      //  var svg_data = document.getElementById(svg_id).innerHTML //put id of your svg element here
+      //  var head = '<svg title="graph" version="1.1" xmlns="http://www.w3.org/2000/svg">'
+        //if you have some additional styling like graph edges put them inside <style> tag
+      //  var style = "<style>"+cssText+"</style>"
+      //  var full_svg = head +  style + svg_data + "</svg>"
+       // var blob = new Blob([full_svg], {type: "image/svg+xml"});  
+       // saveAs(blob, svg_id+".svg");
+        // cssText will be a string containing the text of the file
+      //}
+     // });
+
+      var svg_data = document.getElementById(svg_id).innerHTML //put id of your svg element here
+      var head = '<svg title="graph" version="1.1" xmlns="http://www.w3.org/2000/svg">'
+      //if you have some additional styling like graph edges put them inside <style> tag
+      var style = "<style>"+"</style>"
+      var full_svg = head +  style + svg_data + "</svg>"
+      var blob = new Blob([full_svg], {type: "image/svg+xml"});  
+      saveAs(blob, svg_id+".svg");
+
+
+
+    };
+  </script> 
+ 
+
+
+  <script>
+
+    var tooltip = d3.select('body').append('div').attr('id', 'tooltip');
+    Promise.all([d3.csv('indata.csv'), d3.csv('indata2.csv')]).then(function(files) {
+
+
+
+      console.log(files[1]);
+      //box_plot_cols_1 = ['iBAQ SPORO_1','iBAQ SPORO_2','iBAQ SPORO_3']
+      //box_plot_cols_2 = ['iBAQ WALL_1','iBAQ WALL_2','iBAQ WALL_3']
+      var box_plot_data_1 = {};
+      var box_plot_data_2 = {};
+      var box_plot_id_to_name = {};
+      var box_plot_id_to_desc = {};
+
+      //cycle each line of the file
+      for (var i = 0; i < files[1].length; i++){
+        console.log(files[1][i])
+        var temp_data_1 = [CONDITION_1];
+        var temp_data_2 = [CONDITION_2];
+
+        box_plot_id_to_name[files[1][i].Gene_acc] = files[1][i].Gene_id;
+        box_plot_id_to_desc[files[1][i].Gene_acc] = files[1][i].Desc;
+
+        //grab the column value 
+        for (var a = 0; a < BOX_PLOT_COLS_1.length; a++) {
+          temp_data_1.push( parseInt(files[1][i][BOX_PLOT_COLS_1[a]]) )
+          temp_data_2.push( parseInt(files[1][i][BOX_PLOT_COLS_2[a]]) )
+
+
+        }
+
+        box_plot_data_1[files[1][i].Gene_acc] = temp_data_1;
+        box_plot_data_2[files[1][i].Gene_acc] = temp_data_2;
+      }
+
+      //console.log(box_plot_data);
+      console.log('box_plot_data_1[1]',box_plot_data_1[1]);
+      console.log('box_plot_data_2[1]',box_plot_data_2[1]);
+
+      //box_plot_chart.load({
+      //  columns: [
+      //  box_plot_data_1[1],
+      //  box_plot_data_2[1]
+      //]
+      //});
+
+
+      
+      //use all the columns in the file
+      var columns = files[0].columns;
+      console.log('File Columns', columns);
+      //add data to the table
+      tabulate(files[0], columns, '#table');
+
+
+      //we expect to have 3 fix columns:
+      //Gene_acc -> a unique integer identifiers, hidden in the 
+      //datatable but used for search
+      //Gene_id -> gene id or name, present in the tooltip
+      //Desc -> Extended info, present in the tooltip
+      let columnDefs = [
+        {"targets": columns.indexOf('Gene_acc') , 
+        "visible": false, "searchable": true},
+
+        {"targets": columns.indexOf('Gene_id') , 
+        "searchable": true },
+
+        {"targets": columns.indexOf('Desc'), 
+        "searchable": true },
+
+      ];
+
+      //for all the other columns, if contain a number is
+      //rounded to 2nd decimal
+      columns.forEach(function(d){
+        if( ['Gene_acc','Gene_id','Desc'].indexOf(d) == -1 ) {
+          columnDefs.push(
+            {"targets": columns.indexOf(d), "searchable": false, 
+            render: function(data,type,raw){return numberParser(data);}}
+          );
+        }
+      })
+
+      //start the datatable
+      var table = $('#table').DataTable(
+        {
+          "dom": 'lfrtipB',
+          "buttons": ['csv'],
+          "search": {"regex": true},
+          "lengthMenu": [[-1, 5, 10, 20, 25, 50, 100 ], 
+          [ 'Show all', '5 rows', '10 rows', '20 rows', '25 rows', '50 rows', '100 rows' ]],
+          "pageLength": 5,
+          "scrollX": true,
+          "columnDefs": columnDefs,
+          //https://stackoverflow.com/questions/38575079/
+          'createdRow': function(nRow, aData, iDataIndex) {
+            //console.log('aData',aData);
+            $(nRow).attr('id', 'row_' + aData[0]); // or if you prefer 'row' + aData.aid + aData.bid
+          }
+          
+        }
+      );
+      
+
+      $(function() {
+
+        //sanitaize string
+        //https://stackoverflow.com/questions/4562756/replacing-tab-characters-in-javascript
+        function removeNewlines(str) {
+          //remove line breaks from str
+          str = str.replace(/\s{2,}/g, ' ');
+          str = str.replace(/\t/g, ' ');
+          str = str.toString().trim().replace(/(\r\n|\n|\r)/g," ");
+          return str
+        }
+
+
+        $('#my-form').on("submit", function(e) {
+          e.preventDefault(); // cancel the actual submit and page reload
+          /* do what you want with the form */
+          
+          // Should be triggered on form submit
+          //console.log('hi');
+          var content = document.getElementById("textAreaIDs").value;
+          content =  removeNewlines(content).split(" ") 
+          console.log( content  );
+
+          //select all the rows with the submitted protein ids
+          var selectedRows = table.rows( function ( idx, data, node ) {
+            //console.log('data[1]',data[1]);
+            //console.log('content.indexOf(data[1])',content.indexOf(data[1]))
+            return content.indexOf(data[1]) > -1 ? true : false;
+          } ).data();
+          console.log(selectedRows);
+
+          //select the unique protein ids for each rro
+          var selectedIDs = [];
+          for (i = 0; i < selectedRows.length; i++){selectedIDs.push(selectedRows[i][0])}
+          console.log(selectedIDs);
+          
+          //serch the ids in the table
+          table.columns(0).search(selectedIDs.join('|'), true, false).draw();
+
+          for (i = 0; i < selectedIDs.length; i++){
+            d3.selectAll("circle[id*='" + selectedIDs[i] + "']")
+                .style("stroke", 'red')
+                .style("opacity", 1)
+                .attr("stroke-width", '5')
+                .raise();
+          }
+          
+        });
+
+
+      });
+
+
+      $('#my-form').on("reset", function(e) {
+          //e.preventDefault();
+          console.log('reset');
+          d3.selectAll("circle")
+                .style("stroke", '')
+                .style("opacity", 0.5)
+                .attr("stroke-width", '');
+          d3.selectAll(".gene_name").remove()
+          table.search('').columns().search('').draw();
+        
+        });  
+
+      //select the columns to plot from config file
+      //add the plots
+      scaterPlot(files[0], "plot1", PLOT_WIDTH, PLOT_HEIGHT, "plot_a", X1, Y1, table, 
+      FLIP_Y1, box_plot_data_1, box_plot_data_2, box_plot_id_to_name, box_plot_id_to_desc);
+      scaterPlot(files[0], "plot2", PLOT_WIDTH, PLOT_HEIGHT, "plot_b", X2, Y2, table, 
+      FLIP_Y2, box_plot_data_1, box_plot_data_2, box_plot_id_to_name, box_plot_id_to_desc);
+      
+      //add the listner to the table rows
+      $('#table tbody').on('mouseover', 'tr', function () {
+        //console.log('mouseover');
+        var data = table.row( this ).data();
+        //console.log('data[0]', data);
+        var gene_acc = data[0]
+        //console.log('data[0]', data);
+
+        
+        var selector = '#'+gene_acc;
+        console.log('selector', selector);
+        d3.selectAll(selector).style("stroke",'red').attr("stroke-width",'5').style("opacity", 1).raise();
+        //console.log(d3.select(selector));
+        //var id = table.row( this ).id();
+        //console.log('row id',id);
+
+        //remove front and back tag from id
+        var gene_acc_int = gene_acc.slice(2, -2);
+        console.log('gene_acc_int',gene_acc_int);
+        $(".c3-title").html(data[1] +' '+ data[5]);
+        //load box plot
+        box_plot_chart.load({
+          columns: [
+            box_plot_data_1[gene_acc_int],
+            box_plot_data_2[gene_acc_int]
+          ]
+        });
+
+
+
+      });
+
+      $('#table tbody').on('mouseout', 'tr', function () {
+        //console.log('mouseout');
+        var data = table.row( this ).data();
+        var gene_acc = data[0]
+        var selector = '#'+gene_acc;
+        d3.selectAll(selector).style("stroke",'').attr("stroke-width",'').style("opacity", 0.5);
+        //console.log('data[0]', data);
+        //table.search('').columns().search('').draw();
+      });
+
+
+
+
+    });
+    $( document ).ready(function() {
+
+      quotation('page_title', PROJECT_TITLE);
+
+
+
+      localStorage.removeItem('tour_current_step');
+      localStorage.removeItem('tour_end');
+      // Initialize the tour
+      tour.init();
+  
+      // Start the tour
+      tour.start();
+    });
+
+
+
+  </script>
+</body>
+</html>
