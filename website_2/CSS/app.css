@@ -1,17 +1,17 @@
 #tooltip {
-    background-color: rgba(187, 187, 187, 0.7);
-    border-radius: 5px;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    text-align: center;
+  background-color: rgba(187, 187, 187, 0.7);
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
 }
-  
+
 body {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 14px;
 }
-  
+
 th { font-size: 14px; }
 td { font-size: 12px; }
 label { font-size: 12px; }
@@ -21,17 +21,20 @@ label { font-size: 12px; }
 
 
 .gene_name {
-    position: absolute;
-    z-index: 9;
-    background-color: #f1f1f1;
-    border: 1px solid #d3d3d3;
-    text-align: center;
-  }
-  
+  position: absolute;
+  z-index: 9;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+
 .gene_name_header {
-    padding: 10px;
-    cursor: move;
-    z-index: 10;
-    background-color: #2196F3;
-    color: #fff;
-  }
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+}
+#prot_id {
+font-size: 24px;
+}

@@ -73,14 +73,14 @@
     <div class="row" id='plot_row'>
 
       <div class="col-md-6">
-        <button id='button_2' type="submit" class="btn btn-primary" onclick="save_as_svg('plot2');">Download Plot</button>
+        <button id='button_2' type="submit" class="btn btn-primary" onclick="save_as_svg('plot2');">Download MA Plot</button>
         <svg id="plot2"></svg>
         
       </div>
       
       <div class="col-md-6">
         
-        <button type="submit" class="btn btn-primary" onclick="save_as_svg('plot1');">Download Plot</button>
+        <button type="submit" class="btn btn-primary" onclick="save_as_svg('plot1');">Download Volcano Plot</button>
         <svg id="plot1"></svg>
         
       </div>
@@ -111,10 +111,23 @@
       
 
       <div  class="col-md-4">
-        
+        <div class="row ">
+        <div id="bar_chart_title">
+          <div id="prot_id">
+
+          </div>
+          <div id="prot_name">
+
+          </div>
+
+              
+        </div>
+      </div>
+      <div class="row ">
         <div id="bar_chart">
         
         </div>
+      </div>
         <!-- <button type="submit" class="btn btn-primary" onclick="save_as_svg('bar_chart_svg');">Download Plot</button> -->
         
 
@@ -128,6 +141,23 @@
 
 
   </div>
+
+
+<!-- Footer -->
+<footer class="bg-light text-center text-lg-start">
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+    © 2021 m.tinti@dundee.ac.uk
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+
+
+
+
 </main>
       
   <style>
@@ -256,7 +286,7 @@
 
       //cycle each line of the file
       for (var i = 0; i < files[1].length; i++){
-        console.log(files[1][i])
+        //console.log(files[1][i])
         var temp_data_1 = [CONDITION_1];
         var temp_data_2 = [CONDITION_2];
 
@@ -278,6 +308,8 @@
       //console.log(box_plot_data);
       console.log('box_plot_data_1[1]',box_plot_data_1[1]);
       console.log('box_plot_data_2[1]',box_plot_data_2[1]);
+
+      var box_plot_name_to_id = swap(box_plot_id_to_name);
 
       //box_plot_chart.load({
       //  columns: [
@@ -342,6 +374,7 @@
           
         }
       );
+
       
 
       $(function() {
@@ -435,7 +468,19 @@
         //remove front and back tag from id
         var gene_acc_int = gene_acc.slice(2, -2);
         console.log('gene_acc_int',gene_acc_int);
-        $(".c3-title").html(data[1] +' '+ data[5]);
+        //var temp_html = '<div class="raw"> <div class="col-md-2"> <div>'
+        //$(".c3-title").html(data[1] +' '+ data[5]);
+
+        $('#prot_id').html(data[1]);
+        $('#prot_name').html(data[5]);
+
+
+        //var label = d3.select('text.c3-title');
+        //console.log('label',label);
+        //label.html(''); // remove existant text
+        //label.insert('tspan').text('herpa').attr('dy', -10).attr('x', 0);
+        //label.insert('tspan').text('derpa').attr('dy', -10).attr('x', 44)
+
         //load box plot
         box_plot_chart.load({
           columns: [
@@ -459,12 +504,38 @@
       });
 
 
+      $('#prot_id').on('mouseover',  function () {
+          var prot_id = this.innerText;
+          var selector = box_plot_name_to_id[prot_id];
+          var selector = 'aa'+selector+'aa'
+          console.log('title selector',selector)
+          d3.selectAll('#'+selector).style("stroke",'red').attr("stroke-width",'5').style("opacity", 1).raise();
+          d3.selectAll("tr[id*='" + selector + "']")
+                .style("background-color", 'red')
+                .style("fill", "transparent");   
+
+        });
+
+      $('#prot_id').on('mouseout',  function () {
+          var prot_id = this.innerText;
+          var selector = box_plot_name_to_id[prot_id];
+          var selector = 'aa'+selector+'aa'
+          d3.selectAll('#'+selector).style("stroke",'').attr("stroke-width",'').style("opacity", 0.5);
+          d3.selectAll("tr[id*='" + selector + "']")
+                .style("background-color", ''); 
+        });
+
 
 
     });
+
+
+
     $( document ).ready(function() {
 
       quotation('page_title', PROJECT_TITLE);
+
+
 
 
 

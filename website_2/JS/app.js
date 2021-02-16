@@ -1,5 +1,43 @@
 
 
+ //   //https://datatables.net/forums/discussion/35900/programmatically-moving-a-row-with-rowreorder
+ //   //implement function to reorder rows
+ //   $('#table').find('tbody').on('click', '.move-to-top-btn', function() {
+ //   var $row = $(this).closest('tr'),
+ //       index = $row.index();
+//
+//    if (index === 0) {
+//        return;
+//    }
+//
+//    var rowToMoveUp = dt.row(index).data();
+
+//    // Move through each row, bump the previous row up one:
+//    for (var i = index; i > 0; --i) {
+//        var rowData = dt.row(i - 1).data();
+//       rowData[0]++;
+//
+//        dt.row(i).data(rowData);
+//    }
+//
+//    rowToMoveUp[0] = 0;
+//    dt.row(0).data(rowToMoveUp);
+//
+//    dt.draw(true);
+//});
+
+
+
+
+//https://stackoverflow.com/questions/23013573/swap-key-with-value-json
+//Swap key with value JSON
+function swap(json){
+    var ret = {};
+    for(var key in json){
+      ret[json[key]] = key;
+    }
+    return ret;
+  }
 
 //this function try to parse a string as a number
 //round to two decimal
@@ -298,7 +336,9 @@ function scaterPlot(data, selection, in_width, in_height, unique_id, x_col, y_co
             //update boxplot    
             //var gene_acc_int = gene_acc.slice(2, -2);
             //console.log('gene_acc_int',gene_acc_int);
-            $(".c3-title").html(box_plot_id_to_name[d['Gene_acc']] +' '+box_plot_id_to_desc[d['Gene_acc']]);
+            //$(".c3-title").html(box_plot_id_to_name[d['Gene_acc']] +' '+box_plot_id_to_desc[d['Gene_acc']]);
+            $('#prot_id').html(box_plot_id_to_name[d['Gene_acc']]);
+            $('#prot_name').html(box_plot_id_to_desc[d['Gene_acc']]);
             //load box plot
             box_plot_chart.load({
                 columns: [
