@@ -18,3 +18,7 @@ let BOX_PLOT_COLS_2 = ['R1','R2','R3']
 
 let CONDITION_1 = 'SM'
 let CONDITION_2 = 'R'
+
+
+let COLOR_SELECTION_TABLE = 'orange';
+let COLOR_SELECTION_CIRCLE = 'orange';

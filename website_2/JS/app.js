@@ -25,8 +25,34 @@
 //
 //    dt.draw(true);
 //});
+//not working
+//https://codepen.io/abhig/pen/qwbgeM
+//https://blog.jayway.com/2017/07/13/open-pdf-downloaded-api-javascript/
 
+const svgToPdfExample = (svg) => {
+    const doc = new window.PDFDocument();
+    const chunks = [];
+    const stream = doc.pipe({
+      // writable stream implementation
+      write: (chunk) => chunks.push(chunk),
+      end: () => {
+        const pdfBlob = new Blob(chunks, {
+          type: 'application/pdf'
+        });
+        var blobUrl = URL.createObjectURL(pdfBlob);
+        console.log('blobUrl',blobUrl);
+        window.open(blobUrl);
+      },
+      // readable streaaam stub iplementation
+      on: (event, action) => {},
+      once: (...args) => {},
+      emit: (...args) => {},
+    });
 
+    window.SVGtoPDF(doc, svg, 0, 0);
+
+    doc.end();
+  };
 
 
 //https://stackoverflow.com/questions/23013573/swap-key-with-value-json
@@ -330,7 +356,7 @@ function scaterPlot(data, selection, in_width, in_height, unique_id, x_col, y_co
                 .raise();
 
             d3.selectAll("tr[id*='" + selector + "']")
-                .style("background-color", 'red')
+                .style("background-color", COLOR_SELECTION_TABLE)
                 .style("fill", "transparent");     
                 
             //update boxplot    
@@ -401,12 +427,12 @@ function scaterPlot(data, selection, in_width, in_height, unique_id, x_col, y_co
 
                 var selector = 'aa' + d['Gene_acc'] + 'aa';
                 d3.selectAll("circle[id*='" + selector + "']")
-                    .style("stroke", 'red')
+                    .style("stroke", COLOR_SELECTION_CIRCLE)
                     .style("opacity", 1)
                     .attr("stroke-width", '5')
                     .raise();
                 d3.selectAll("tr[id*='" + selector + "']")
-                    .style("background-color", 'red')
+                    .style("background-color", COLOR_SELECTION_TABLE)
                     .style("fill", "transparent"); 
 
                 
@@ -431,7 +457,7 @@ function scaterPlot(data, selection, in_width, in_height, unique_id, x_col, y_co
                 }
 
                     
-                let gene_name =svg.append("text").attr("x", x(d[x_col]))
+                let gene_name = svg.append("text").attr("x", x(d[x_col]))
                 .attr("y", y(d[y_col])-10)
                 .attr("id", 'gene-label-' +unique_id+ d['Gene_acc'])
                 .style("text-anchor", "middle")

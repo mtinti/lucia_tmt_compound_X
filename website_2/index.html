@@ -26,18 +26,17 @@
   <link rel="stylesheet" type="text/css" href="CSS/external/buttons.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="CSS/external/bootstrap-tour.min.css">
   <link rel="stylesheet" type="text/css" href="CSS/app.css">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css">
+  <link rel="stylesheet"  href="CSS/external/c3.min.css">
 
+  
 </head>
 
 <body>
+  
 
   <main role="main">
 
   <div class="container">
-
-
-
 
     <div class="row">
       <div class="col-md-2">
@@ -112,13 +111,28 @@
 
       <div  class="col-md-4">
         <div class="row ">
+          
         <div id="bar_chart_title">
-          <div id="prot_id">
+
+          <div class="row ">
+            <div  class="col-md-6">
+              <div id="prot_id">
+
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <button id="save-bar" type="submit" class="btn btn-primary" >Download Bar Plot</button>
+            </div>
 
           </div>
+
+          
           <div id="prot_name">
 
           </div>
+          
 
               
         </div>
@@ -127,7 +141,10 @@
         <div id="bar_chart">
         
         </div>
+        
       </div>
+      
+      
         <!-- <button type="submit" class="btn btn-primary" onclick="save_as_svg('bar_chart_svg');">Download Plot</button> -->
         
 
@@ -178,9 +195,15 @@
   <script type="text/javascript" src="JS/tour.js"></script> 
   <script type="text/javascript" src="JS/external/d3-drag.v2.min.js"></script>
   <script type="text/javascript" src="JS/FileSaver.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+
+  <script src="JS/external/c3.js"></script>
+  <script src="JS/external/loadingoverlay.min.js"></script> 
+
+  <script src="JS/external/pdfkit.standalone.js"></script>
+  <script src="JS/external/source.js"></script>
 
   <script>
+    	$.LoadingOverlay("show", {imageColor:'#000000'});
 
     var box_plot_chart = c3.generate({
 
@@ -321,7 +344,7 @@
 
       
       //use all the columns in the file
-      var columns = files[0].columns;
+      var columns = files[0].columns.slice(0,6);
       console.log('File Columns', columns);
       //add data to the table
       tabulate(files[0], columns, '#table');
@@ -366,6 +389,7 @@
           "pageLength": 5,
           "scrollX": true,
           "columnDefs": columnDefs,
+          "bSortClasses": false,
           //https://stackoverflow.com/questions/38575079/
           'createdRow': function(nRow, aData, iDataIndex) {
             //console.log('aData',aData);
@@ -418,7 +442,7 @@
 
           for (i = 0; i < selectedIDs.length; i++){
             d3.selectAll("circle[id*='" + selectedIDs[i] + "']")
-                .style("stroke", 'red')
+                .style("stroke", COLOR_SELECTION_CIRCLE)
                 .style("opacity", 1)
                 .attr("stroke-width", '5')
                 .raise();
@@ -460,7 +484,7 @@
         
         var selector = '#'+gene_acc;
         console.log('selector', selector);
-        d3.selectAll(selector).style("stroke",'red').attr("stroke-width",'5').style("opacity", 1).raise();
+        d3.selectAll(selector).style("stroke",COLOR_SELECTION_CIRCLE).attr("stroke-width",'5').style("opacity", 1).raise();
         //console.log(d3.select(selector));
         //var id = table.row( this ).id();
         //console.log('row id',id);
@@ -509,9 +533,9 @@
           var selector = box_plot_name_to_id[prot_id];
           var selector = 'aa'+selector+'aa'
           console.log('title selector',selector)
-          d3.selectAll('#'+selector).style("stroke",'red').attr("stroke-width",'5').style("opacity", 1).raise();
+          d3.selectAll('#'+selector).style("stroke",COLOR_SELECTION_CIRCLE).attr("stroke-width",'5').style("opacity", 1).raise();
           d3.selectAll("tr[id*='" + selector + "']")
-                .style("background-color", 'red')
+                .style("background-color", COLOR_SELECTION_TABLE)
                 .style("fill", "transparent");   
 
         });
@@ -526,12 +550,27 @@
         });
 
 
+      $('#save-bar').click(function(event) {
+
+        $("#bar_chart_svg").each(function(index) {
+          
+          var outerHTML = $(this)[0].outerHTML
+
+          svgToPdfExample(outerHTML);
+        })
+
+      });
+
+
+
+
 
     });
 
 
 
     $( document ).ready(function() {
+      $.LoadingOverlay("hide");
 
       quotation('page_title', PROJECT_TITLE);
 
