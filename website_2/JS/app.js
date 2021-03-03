@@ -470,7 +470,7 @@ function scaterPlot(data, selection, in_width, in_height, unique_id, x_col, y_co
                     console.log('im dragging');
                 }
                 
-                drag_this('#gene-label-' +unique_id+ d['Gene_acc']);
+                drag_this('#gene-label-' +unique_id+ d['Gene_acc'], "#plot_row");
 
                 
 

@@ -22,3 +22,5 @@ let CONDITION_2 = 'R'
 
 let COLOR_SELECTION_TABLE = 'orange';
 let COLOR_SELECTION_CIRCLE = 'orange';
+
+let Y_LABEL_BARPLOT = 'iBAQ';

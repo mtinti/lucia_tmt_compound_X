@@ -24,7 +24,7 @@
   <link rel="stylesheet" type="text/css" href="CSS/external/bootstrap-tour-standalone.min.css">
   <link rel="stylesheet" type="text/css" href="CSS/external/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="CSS/external/buttons.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="CSS/external/bootstrap-tour.min.css">
+
   <link rel="stylesheet" type="text/css" href="CSS/app.css">
   <link rel="stylesheet"  href="CSS/external/c3.min.css">
 
@@ -45,7 +45,7 @@
       <div class="col-md-8 d-flex flex-row">
 
         <img class="img-responsive" style="width: 100%" 
-          id="theImg" src="uod-wcair-full.png" />
+          id="theImg" src="static/uod-wcair-full.png" />
       </div>
       
         
@@ -187,7 +187,7 @@
   <script type="text/javascript" src="JS/external/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="JS/external/dataTables.buttons.min.js"></script> 
   <script type="text/javascript" src="JS/external/buttons.html5.min.js"></script> 
-  <script type="text/javascript" src="JS/external/bootstrap-tour.min.js"></script> 
+
   <script type="text/javascript" src="JS/external/d3.v5.min.js"></script>
   <script type="text/javascript" src="JS/extend_domain.js"></script>
   <script type="text/javascript" src="JS/drag_element2.js"></script>  
@@ -203,7 +203,8 @@
   <script src="JS/external/source.js"></script>
 
   <script>
-    	$.LoadingOverlay("show", {imageColor:'#000000'});
+    
+    $.LoadingOverlay("show", {imageColor:'#000000'});
 
     var box_plot_chart = c3.generate({
 
@@ -233,7 +234,7 @@
 
 
       y: {
-        label: 'iBAQ',
+        label: Y_LABEL_BARPLOT,
         tick: {
           format: d3.format(".1e")
         }
@@ -260,7 +261,6 @@
     //https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an  
     function save_as_svg(svg_id){
 
-
       //$.ajax({
       //  url: "CSS/external/c3.min.css",
       //  dataType: "text",
@@ -284,10 +284,8 @@
       var full_svg = head +  style + svg_data + "</svg>"
       var blob = new Blob([full_svg], {type: "image/svg+xml"});  
       saveAs(blob, svg_id+".svg");
-
-
-
     };
+
   </script> 
  
 
@@ -306,6 +304,7 @@
       var box_plot_data_2 = {};
       var box_plot_id_to_name = {};
       var box_plot_id_to_desc = {};
+      var box_plot_name_to_id = {}
 
       //cycle each line of the file
       for (var i = 0; i < files[1].length; i++){
@@ -315,6 +314,7 @@
 
         box_plot_id_to_name[files[1][i].Gene_acc] = files[1][i].Gene_id;
         box_plot_id_to_desc[files[1][i].Gene_acc] = files[1][i].Desc;
+        box_plot_name_to_id[files[1][i].Gene_id] = files[1][i].Gene_acc
 
         //grab the column value 
         for (var a = 0; a < BOX_PLOT_COLS_1.length; a++) {
@@ -332,7 +332,7 @@
       console.log('box_plot_data_1[1]',box_plot_data_1[1]);
       console.log('box_plot_data_2[1]',box_plot_data_2[1]);
 
-      var box_plot_name_to_id = swap(box_plot_id_to_name);
+      //var box_plot_name_to_id = swap(box_plot_id_to_name);
 
       //box_plot_chart.load({
       //  columns: [
